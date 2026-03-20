@@ -62,8 +62,8 @@ COOKIE_URL=youtube_cookies_url (optional)
 1. **Clone the repository**
 
 ```bash
-git clone https://github.com/Msp0455/Elevenyts
-cd Elevenyts
+git clone https://github.com/Msp0455/Elevenytsmusic
+cd Elevenytsmusic 
 ```
 
 2. **Install dependencies**
@@ -134,7 +134,7 @@ The bot streams audio at **STUDIO** quality (highest available) with:
 
 ### Customization
 
-- Modify language files in `HasiiMusic/locales/`
+- Modify language files in `Elevenyts/locales/`
 - Customize thumbnails and images in `config.py`
 - Adjust queue limits and duration in `config.py`
 
