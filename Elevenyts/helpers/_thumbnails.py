@@ -1,5 +1,5 @@
 # ==============================================================================
-# _thumbnails.py - Cinematic Thumbnail Generator (Elevenyts + Encoded Watermark)
+# _thumbnails.py - Cinematic Thumbnail Generator (Elevenyts Ultimate)
 # ==============================================================================
 
 import os
@@ -7,7 +7,7 @@ import re
 import asyncio
 import aiohttp
 import base64
-from PIL import Image, ImageDraw, ImageEnhance, ImageFilter, ImageFont
+from PIL import Image, ImageDraw, ImageFilter, ImageFont
 
 from Elevenyts import config
 from Elevenyts.helpers import Track
@@ -42,7 +42,7 @@ class Thumbnail:
             self.regular_font = ImageFont.truetype(
                 "Elevenyts/helpers/Inter-Light.ttf", 22)
 
-            # 🔥 4X BIG WATERMARK FONT
+            # 🔥 4X BIG WATERMARK
             self.watermark_font = ImageFont.truetype(
                 "Elevenyts/helpers/Raleway-Bold.ttf", 72)
 
@@ -52,9 +52,6 @@ class Thumbnail:
         except OSError:
             self.title_font = self.regular_font = self.watermark_font = self.small_font = ImageFont.load_default()
 
-    # =========================
-    # 🌐 DOWNLOAD IMAGE
-    # =========================
     async def save_thumb(self, output_path: str, url: str) -> str:
         async with aiohttp.ClientSession() as session:
             async with session.get(url) as resp:
@@ -62,9 +59,6 @@ class Thumbnail:
                     f.write(await resp.read())
         return output_path
 
-    # =========================
-    # 🚀 MAIN GENERATOR
-    # =========================
     async def generate(self, song: Track, size=(1280, 720)) -> str:
         try:
             temp = f"cache/temp_{song.id}.jpg"
@@ -82,43 +76,66 @@ class Thumbnail:
         except Exception:
             return config.DEFAULT_THUMB
 
-    # =========================
-    # 🎨 IMAGE DESIGN
-    # =========================
     def _generate_sync(self, temp: str, output: str, song: Track, size=(1280, 720)) -> str:
         try:
             with Image.open(temp) as temp_img:
                 base = temp_img.resize(size).convert("RGBA")
 
-            # Slight blur
             bg = base.filter(ImageFilter.GaussianBlur(3))
             draw = ImageDraw.Draw(bg)
 
             # =========================
+            # 🔐 ENCODED WATERMARK
             # =========================
-            left_encoded = "QVJUSVNU"          
-            right_encoded = "RUxFVkVOWVRT"    
+            left_encoded = "QVJUSVNU"          # ARTIST
+            right_encoded = "RUxFVkVOWVRT"     # ELEVENYTS
 
             left_text = decode_text(left_encoded)
             right_text = decode_text(right_encoded)
 
             # =========================
-            # 🌈 GRADIENT TEXT FUNCTION
+            # 🌈 GRADIENT TEXT + BG
             # =========================
-            def draw_gradient_text(draw, position, text, font):
+            def draw_gradient_text_with_bg(draw, position, text, font):
                 x, y = position
+
+                text_w = font.getlength(text)
+                text_h = font.size
+
+                padding_x = 20
+                padding_y = 10
+
+                bg_box = [
+                    x - padding_x,
+                    y - padding_y,
+                    x + text_w + padding_x,
+                    y + text_h + padding_y
+                ]
+
+                draw.rounded_rectangle(
+                    bg_box,
+                    radius=20,
+                    fill=(0, 0, 0, 150)
+                )
+
                 colors = [(255, 0, 150), (0, 200, 255), (255, 200, 0)]
+
                 for i, char in enumerate(text):
                     color = colors[i % len(colors)]
                     draw.text((x, y), char, font=font, fill=color)
                     x += font.getlength(char)
 
             # LEFT WATERMARK
-            draw_gradient_text(draw, (40, 20), left_text, self.watermark_font)
+            draw_gradient_text_with_bg(draw, (40, 30), left_text, self.watermark_font)
 
-            # RIGHT WATERMARK (auto align)
+            # RIGHT WATERMARK (👇 niche)
             text_w = self.watermark_font.getlength(right_text)
-            draw_gradient_text(draw, (1280 - text_w - 40, 20), right_text, self.watermark_font)
+            draw_gradient_text_with_bg(
+                draw,
+                (1280 - text_w - 40, 90),
+                right_text,
+                self.watermark_font
+            )
 
             # =========================
             # 🌑 BOTTOM GRADIENT
