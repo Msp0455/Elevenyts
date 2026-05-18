@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="https://files.catbox.moe/6yi64z.png" alt="˹Elevenyts ᴍᴜꜱɪᴄ˼" width="400"/>
+  <img src="https://files.catbox.moe/6yi64z.png" alt="˹ꜱʜʀᴇᴇ ᴍᴜꜱɪᴄ˼" width="400"/>
   
   # 🎵 ˹ᴇʟᴇᴠᴇɴʏᴛꜱ ᴍᴜꜱɪᴄ˼
 
@@ -67,8 +67,8 @@ bash start
 
 ## 📞 Support & Contact
 
-- **Telegram Channel**: [@Elevenyts](https://t.me/elevenyts)
-- **Support Group**: [@Elevenyts Music](https://t.me/elevenytsmusic) 
+- **Telegram Channel**: [Shreebots](https://t.me/shreebots)
+- **Support Group**: [Elevenyts Music](https://t.me/elevenytsmusic) 
 
 ---
 
@@ -85,6 +85,6 @@ bash start
   
   ### Made with ❤️ by Artist 
   
-  **© 2025 ˹ᴇʟᴇᴠᴇɴʏᴛꜱ ᴍᴜꜱɪᴄ˼. All rights reserved.**
+  **© 2025 ˹ꜱʜʀᴇᴇ ᴍᴜꜱɪᴄ˼. All rights reserved.**
   
 </div>
